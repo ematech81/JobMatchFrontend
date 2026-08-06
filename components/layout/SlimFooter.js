@@ -1,4 +1,5 @@
 
+import Image from 'next/image';
 import Link from 'next/link';
 
 const LINKS = [
@@ -13,7 +14,8 @@ export default function SlimFooter() {
   return (
     <footer className="bg-surface-container-low border-t border-border-subtle mt-stack-lg">
       <div className="w-full py-stack-lg px-margin-mobile md:px-gutter max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-stack-md">
-        <Link href="/" className="font-headline-md text-headline-md font-bold text-primary">
+        <Link href="/" className="flex items-center gap-2 font-headline-md text-headline-md font-bold text-primary">
+          <Image src="/jobMatch-logo.png" alt="JobMatch" width={32} height={32} className="h-8 w-8 rounded-md object-contain" />
           JobMatch
         </Link>
         <div className="flex gap-gutter flex-wrap justify-center">

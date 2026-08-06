@@ -2,17 +2,31 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { getSocket } from '@/lib/socket';
 
 export default function MatchToast() {
-  const [visible, setVisible] = useState(false);
+  const [match, setMatch] = useState(null);
 
   useEffect(() => {
-    // TODO: replace with Socket.io 'new_match' listener once auth is wired up
-    const timer = setTimeout(() => setVisible(true), 3000);
-    return () => clearTimeout(timer);
+    const socket = getSocket();
+    if (!socket) return; // signed out — nothing to subscribe to
+
+    const handleNewMatch = (payload) => setMatch(payload);
+    socket.on('new_match', handleNewMatch);
+
+    return () => {
+      socket.off('new_match', handleNewMatch);
+    };
   }, []);
 
-  if (!visible) return null;
+  // Auto-dismiss so a burst of matches doesn't leave a toast pinned on screen.
+  useEffect(() => {
+    if (!match) return;
+    const timer = setTimeout(() => setMatch(null), 8000);
+    return () => clearTimeout(timer);
+  }, [match]);
+
+  if (!match) return null;
 
   return (
     <div className="fixed top-20 right-6 z-[100] transition-transform duration-500 ease-out">
@@ -23,7 +37,8 @@ export default function MatchToast() {
         <div>
           <h4 className="font-bold text-on-surface text-body-md">New Match Found!</h4>
           <p className="text-slate-gray text-body-sm">
-            A "Technical Product Manager" role in London just posted that matches 95% of your skills.
+            {match.jobTitle}
+            {match.employer ? ` at ${match.employer}` : ''} matches {match.score}% of your profile.
           </p>
           <Link
             href="/matches"
@@ -33,8 +48,9 @@ export default function MatchToast() {
           </Link>
         </div>
         <button
-          onClick={() => setVisible(false)}
+          onClick={() => setMatch(null)}
           className="text-slate-gray hover:text-on-surface"
+          aria-label="Dismiss notification"
         >
           <span className="material-symbols-outlined text-[20px]">close</span>
         </button>

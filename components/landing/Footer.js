@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Footer() {
@@ -6,7 +7,8 @@ export default function Footer() {
       <div className="max-w-container-max mx-auto px-margin-mobile">
         <div className="flex flex-col md:flex-row justify-between items-start gap-stack-lg mb-16">
           <div className="max-w-xs space-y-4">
-            <span className="font-headline-md text-headline-md text-on-secondary font-bold">
+            <span className="flex items-center gap-2 font-headline-md text-headline-md text-on-secondary font-bold">
+              <Image src="/jobMatch-logo.png" alt="JobMatch" width={32} height={32} className="h-8 w-8 rounded-md object-contain" />
               JobMatch
             </span>
             <p className="text-on-secondary-container opacity-80 text-body-sm">
@@ -21,8 +23,8 @@ export default function Footer() {
                 Platform
               </h4>
               <ul className="space-y-2">
-                <li><Link href="/jobs" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Find Jobs</Link></li>
-                <li><Link href="/resume/build" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Resume Builder</Link></li>
+                <li><Link href="/jobs/search" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Find Jobs</Link></li>
+                <li><Link href="/resume/builder" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Resume Builder</Link></li>
                 <li><Link href="/companies" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Companies</Link></li>
               </ul>
             </div>

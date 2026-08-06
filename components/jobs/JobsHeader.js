@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -31,7 +32,8 @@ export default function JobsHeader({ initialCountry }) {
     >
       <div className="flex justify-between items-center px-4 md:px-margin-mobile max-w-container-max mx-auto w-full h-16">
         <div className="flex items-center gap-8">
-          <Link href="/" className="font-headline-md text-headline-md font-bold text-primary">
+          <Link href="/" className="flex items-center gap-2 font-headline-md text-headline-md font-bold text-primary">
+            <Image src="/jobMatch-logo.png" alt="JobMatch" width={32} height={32} className="h-8 w-8 rounded-md object-contain" />
             JobMatch
           </Link>
 
@@ -71,13 +73,6 @@ export default function JobsHeader({ initialCountry }) {
             Profile
           </Link>
         </nav>
-
-        <Link
-          href="/post-job"
-          className="bg-electric-blue text-white px-6 py-2 rounded-lg font-button text-button hover:bg-secondary transition-all shadow-sm"
-        >
-          Post a Job
-        </Link>
       </div>
     </header>
   );

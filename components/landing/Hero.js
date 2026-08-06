@@ -4,7 +4,7 @@ import SearchBar from './SearchBar';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[870px] flex items-center pt-16 hero-mesh overflow-hidden">
+    <section className="relative min-h-[600px] flex items-center pt-8 hero-mesh overflow-hidden">
       <div className="max-w-container-max mx-auto px-margin-mobile w-full grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-center relative z-10">
         <div className="space-y-stack-lg">
           <div className="inline-flex items-center gap-stack-sm bg-white border border-border-subtle px-4 py-1.5 rounded-full shadow-sm">
@@ -42,7 +42,7 @@ export default function Hero() {
               </span>
             </Link>
             <Link
-              href="/resume/build"
+              href="/resume/builder"
               className="flex items-center gap-3 bg-white border-2 border-electric-blue text-electric-blue px-8 py-4 rounded-xl font-button hover:bg-surface-container-low transition-all"
             >
               <span className="material-symbols-outlined">edit_document</span>

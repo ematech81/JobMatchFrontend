@@ -98,7 +98,7 @@ export default function FeaturesBento() {
               highlighting your unique strengths to human recruiters.
             </p>
             <Link
-              href="/resume/build"
+              href="/resume/builder"
               className="text-electric-blue font-bold flex items-center gap-2 group"
             >
               Try the builder

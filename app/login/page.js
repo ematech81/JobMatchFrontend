@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import AuthShell from '@/components/auth/AuthShell';
@@ -23,7 +24,7 @@ export default function LoginPage() {
     >
       <div className="flex flex-col items-center md:items-start gap-stack-sm">
         <Image
-          src="https://lh3.googleusercontent.com/aida/AP1WRLs1zjOOjJfZ7yftrw8HMQMOrQKdLivYJcjd0fn7pKLVZoB0PgUJolCR2JvFrb65gUdzZ_OobAZcZvK3M8CZTThU_TZLb5R7m9p-ECrrA9SgeGDyZDfWkAGcjea1t_og3fhVuBceuu6tG7Iz2g8eassbFs3lSmOhj3fegYILM-B66dEdamGO7AjgE-nrsDs3zJezMH1ulDGBdxqGqRfzWrGbbsyGENEN40Ai0vSkPbeSHJGhe4w1DnaYdg"
+          src="/jobMatch-logo.png"
           alt="JobMatch Logo"
           width={48}
           height={48}
@@ -47,7 +48,10 @@ export default function LoginPage() {
         <div className="flex-grow border-t border-border-subtle" />
       </div>
 
-      <LoginForm />
+      {/* LoginForm reads the ?redirect= param, so it must not block prerender. */}
+      <Suspense fallback={<div className="h-64" />}>
+        <LoginForm />
+      </Suspense>
 
       <p className="text-center text-body-sm text-slate-gray">
         Don&apos;t have an account?{' '}

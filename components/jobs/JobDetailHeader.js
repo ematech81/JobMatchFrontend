@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -18,7 +19,8 @@ export default function JobDetailHeader() {
     <header className="bg-surface-container-lowest border-b border-border-subtle sticky top-0 z-50">
       <div className="flex justify-between items-center w-full px-margin-mobile md:px-gutter max-w-container-max mx-auto h-16">
         <div className="flex items-center gap-gutter">
-          <Link href="/" className="font-headline-md text-headline-md font-bold text-primary">
+          <Link href="/" className="flex items-center gap-2 font-headline-md text-headline-md font-bold text-primary">
+            <Image src="/jobMatch-logo.png" alt="JobMatch" width={32} height={32} className="h-8 w-8 rounded-md object-contain" />
             JobMatch
           </Link>
           <nav className="hidden md:flex gap-stack-lg items-center h-full">
@@ -54,12 +56,6 @@ export default function JobDetailHeader() {
               onKeyDown={handleKeyDown}
             />
           </div>
-          <Link
-            href="/post-job"
-            className="bg-primary text-on-primary px-4 py-2 rounded-lg font-button text-button hover:opacity-80 transition-all active:scale-95"
-          >
-            Post a Job
-          </Link>
         </div>
       </div>
     </header>

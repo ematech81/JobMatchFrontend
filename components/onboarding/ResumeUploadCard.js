@@ -62,7 +62,7 @@ export default function ResumeUploadCard() {
         throw new Error(data.message || 'Failed to analyze resume');
       }
 
-      router.push('/dashboard');
+      router.push('/jobs/search');
     } catch (err) {
       setError(err.message);
       setStatus('error');

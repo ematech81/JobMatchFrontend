@@ -22,7 +22,8 @@ export default function LoginForm() {
     setLoading(true);
     try {
       await login(email, password);
-      const redirect = searchParams.get('redirect') || '/dashboard';
+      // Successful login lands on the dashboard (/matches).
+      const redirect = searchParams.get('redirect') || '/matches';
       router.push(redirect);
     } catch (err) {
       setError(err.message);

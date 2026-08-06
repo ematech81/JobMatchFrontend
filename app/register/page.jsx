@@ -11,8 +11,7 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-const LOGO_URL =
-  'https://lh3.googleusercontent.com/aida/AP1WRLs1zjOOjJfZ7yftrw8HMQMOrQKdLivYJcjd0fn7pKLVZoB0PgUJolCR2JvFrb65gUdzZ_OobAZcZvK3M8CZTThU_TZLb5R7m9p-ECrrA9SgeGDyZDfWkAGcjea1t_og3fhVuBceuu6tG7Iz2g8eassbFs3lSmOhj3fegYILM-B66dEdamGO7AjgE-nrsDs3zJezMH1ulDGBdxqGqRfzWrGbbsyGENEN40Ai0vSkPbeSHJGhe4w1DnaYdg';
+const LOGO_URL = '/jobMatch-logo.png';
 
 export default function RegisterPage() {
   return (

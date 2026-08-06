@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function BuilderHeader() {
@@ -9,7 +10,8 @@ export default function BuilderHeader() {
   return (
     <nav className="bg-surface border-b border-border-subtle sticky top-0 z-50">
       <div className="flex justify-between items-center px-4 md:px-margin-mobile max-w-container-max mx-auto w-full h-16">
-        <Link href="/" className="font-headline-md text-headline-md font-bold text-primary">
+        <Link href="/" className="flex items-center gap-2 font-headline-md text-headline-md font-bold text-primary">
+          <Image src="/jobMatch-logo.png" alt="JobMatch" width={32} height={32} className="h-8 w-8 rounded-md object-contain" />
           JobMatch
         </Link>
 

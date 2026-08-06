@@ -1,31 +1,43 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-
-const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000/api';
+import { getToken, getSavedJobs, saveJob } from '@/lib/apiClient';
 
 export default function JobActions({ jobId, applyLink }) {
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
   const router = useRouter();
 
+  // Reflect jobs the user already saved, so a revisit doesn't offer to
+  // re-save something that is already in their list.
+  useEffect(() => {
+    if (!getToken()) return;
+
+    let cancelled = false;
+    getSavedJobs()
+      .then(({ jobs }) => {
+        if (!cancelled && jobs?.some((j) => j.job_id === jobId)) setSaved(true);
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, [jobId]);
+
   const handleSave = async () => {
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      router.push(`/login?redirect=/jobs/${jobId}`);
+    if (!getToken()) {
+      router.push(`/login?redirect=${encodeURIComponent(`/jobs/${jobId}`)}`);
       return;
     }
 
     setSaving(true);
     try {
-      const res = await fetch(`${API_URL}/jobs/${jobId}/save`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.ok) setSaved(true);
+      await saveJob(jobId);
+      setSaved(true);
     } catch (err) {
-      console.error('Save failed:', err);
+      console.error('Save failed:', err.message);
     } finally {
       setSaving(false);
     }

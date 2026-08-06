@@ -19,7 +19,7 @@ export default function CTASection() {
             Create Free Account
           </Link>
           <Link
-            href="/jobs"
+            href="/jobs/search"
             className="bg-white border border-border-subtle text-deep-navy px-10 py-5 rounded-xl font-button text-lg hover:bg-surface-container-low transition-all"
           >
             Explore Job Board

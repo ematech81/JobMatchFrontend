@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function OnboardingHeader() {
@@ -10,7 +11,8 @@ export default function OnboardingHeader() {
     <header className="bg-surface border-b border-border-subtle fixed top-0 left-0 right-0 z-50">
       <nav className="flex justify-between items-center px-4 md:px-margin-mobile max-w-container-max mx-auto w-full h-16">
         <div className="flex items-center gap-gutter">
-          <Link href="/" className="font-headline-md text-headline-md font-bold text-primary tracking-tight">
+          <Link href="/" className="flex items-center gap-2 font-headline-md text-headline-md font-bold text-primary tracking-tight">
+            <Image src="/jobMatch-logo.png" alt="JobMatch" width={32} height={32} className="h-8 w-8 rounded-md object-contain" />
             JobMatch
           </Link>
           <div className="hidden md:flex items-center gap-stack-lg">
@@ -27,12 +29,6 @@ export default function OnboardingHeader() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link
-            href="/post-job"
-            className="hidden md:block px-6 py-2 bg-electric-blue text-white font-button text-button rounded-lg hover:shadow-lg transition-all"
-          >
-            Post a Job
-          </Link>
           <button
             onClick={() => setMenuOpen((v) => !v)}
             className="md:hidden p-2 text-slate-gray"
