@@ -317,7 +317,26 @@ export default function VerifyStep({ resume }) {
             <div className="bg-surface-container-lowest border border-border-subtle rounded-xl p-stack-md shadow-sm mb-8">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="font-headline-md text-headline-md text-lg">Skills</h3>
+                {skills.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setSkills([])}
+                    className="text-slate-gray font-label-md text-label-md hover:text-error hover:underline transition-colors"
+                  >
+                    Clear all
+                  </button>
+                )}
               </div>
+              {/* AI-extracted skills can include false positives from brand
+                  names it doesn't recognize (e.g. "Railway" the hosting
+                  platform misread as "Rail Transport") — worth a skim before
+                  confirming. */}
+              {skills.length > 15 && (
+                <p className="font-body-sm text-body-sm text-slate-gray mb-3">
+                  {skills.length} skills were detected — some may be mismatched from company/product
+                  names in your resume. Remove any that don&apos;t belong, or clear all and re-add manually.
+                </p>
+              )}
               <div className="flex flex-wrap gap-2 mb-4">
                 {skills.map((skill) => (
                   <div
