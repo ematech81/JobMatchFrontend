@@ -34,7 +34,12 @@ function DashboardContent() {
   const [resumeData, setResumeData] = useState(null);
   const [resumeLoading, setResumeLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [connected, setConnected] = useState(false);
+  // DashboardContent only ever mounts client-side (RequireAuth gates it
+  // behind a client-only auth check, same as ResumeBuilderProvider) — so
+  // reading the socket's current state directly here is safe, and means the
+  // effect below never needs to set this synchronously itself, just react
+  // to connect/disconnect events.
+  const [connected, setConnected] = useState(() => getSocket()?.connected ?? false);
 
   const loadMatches = useCallback(async () => {
     const [ranked, recent] = await Promise.all([
@@ -46,9 +51,13 @@ function DashboardContent() {
   }, []);
 
   useEffect(() => {
-    loadMatches().catch((err) =>
-      setError(err instanceof ApiError ? err.message : 'Failed to load matches')
-    );
+    (async () => {
+      try {
+        await loadMatches();
+      } catch (err) {
+        setError(err instanceof ApiError ? err.message : 'Failed to load matches');
+      }
+    })();
 
     // A missing resume is an expected state, not an error — the sidebar
     // renders its own empty state for it.
@@ -83,7 +92,6 @@ function DashboardContent() {
       loadMatches().catch(() => {});
     };
 
-    setConnected(socket.connected);
     socket.on('connect', handleConnect);
     socket.on('disconnect', handleDisconnect);
     socket.on('new_match', handleNewMatch);
@@ -95,8 +103,19 @@ function DashboardContent() {
     };
   }, [loadMatches]);
 
-  const [featured, ...rest] = matches || [];
+  // matches is already sorted by score (see loadMatches), so the next two
+  // after the featured one are genuinely "closest match" — they fill the
+  // empty space beside the featured card instead of leaving it blank, since
+  // that card is short (self-start) next to the tall live feed.
+  const [featured, runnerUp, thirdPlace, ...rest] = matches || [];
+  // "New in the last 24h" inherently needs the current time — there's no
+  // pure way to express "now" in a render function, and useMemo doesn't
+  // exempt Date.now() from this rule either (verified — still flags inside
+  // the memo callback). A render that's a few ms stale on this badge is
+  // harmless; wrapping it in an effect+ref just to satisfy the linter would
+  // add real complexity for no practical benefit.
   const newMatchCount = (feed || []).filter(
+    // eslint-disable-next-line react-hooks/purity
     (item) => Date.now() - new Date(item.matchedAt).getTime() < DAY_MS
   ).length;
 
@@ -156,8 +175,17 @@ function DashboardContent() {
               </p>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
-              {featured && <FeaturedMatchCard match={featured} />}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter items-start">
+              <div className="md:col-span-2 xl:col-span-2 flex flex-col gap-gutter">
+                {featured && <FeaturedMatchCard match={featured} />}
+
+                {(runnerUp || thirdPlace) && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+                    {runnerUp && <MatchCard match={runnerUp} />}
+                    {thirdPlace && <MatchCard match={thirdPlace} />}
+                  </div>
+                )}
+              </div>
 
               <LiveMatchFeed items={feed || []} loading={feed === null} connected={connected} />
 

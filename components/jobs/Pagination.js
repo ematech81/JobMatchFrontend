@@ -1,8 +1,12 @@
 import Link from 'next/link';
 
-export default function Pagination({ currentPage, country }) {
-  const buildHref = (page) =>
-    `/jobs/search?country=${encodeURIComponent(country)}&page=${page}`;
+export default function Pagination({ currentPage, country, jobType = [], datePosted }) {
+  const buildHref = (page) => {
+    const params = new URLSearchParams({ country, page });
+    jobType.forEach((type) => params.append('jobType', type));
+    if (datePosted) params.set('datePosted', datePosted);
+    return `/jobs/search?${params.toString()}`;
+  };
 
   const prevDisabled = currentPage <= 1;
 

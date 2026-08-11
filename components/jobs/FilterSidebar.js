@@ -68,18 +68,26 @@ export default function FilterSidebar() {
             <h3 className="font-label-md text-label-md text-slate-gray uppercase mb-3">
               Industry
             </h3>
+            {/* Cached jobs have no industry field to filter on at all (not
+                just unwired — the data doesn't exist), unlike Job Type and
+                Date Posted, which are real fields. Disabled rather than left
+                silently non-functional; inferring industry from job
+                title/description would be exactly the kind of unreliable
+                keyword-matching heuristic already known to misfire (see the
+                resume skill-extraction noise). */}
             <div className="space-y-2">
               {INDUSTRIES.map((industry) => (
-                <label key={industry} className="flex items-center gap-3 cursor-pointer group">
+                <label
+                  key={industry}
+                  title="Coming soon"
+                  className="flex items-center gap-3 opacity-50 cursor-not-allowed"
+                >
                   <input
                     type="checkbox"
-                    checked={isChecked('industry', industry)}
-                    onChange={() => toggleParam('industry', industry)}
-                    className="w-5 h-5 rounded border-outline text-electric-blue focus:ring-electric-blue"
+                    disabled
+                    className="w-5 h-5 rounded border-outline text-electric-blue"
                   />
-                  <span className="text-body-md text-on-surface group-hover:text-electric-blue transition-colors">
-                    {industry}
-                  </span>
+                  <span className="text-body-md text-on-surface">{industry}</span>
                 </label>
               ))}
             </div>

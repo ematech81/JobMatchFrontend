@@ -22,8 +22,8 @@ export default function FeaturedMatchCard({ match }) {
     .slice(0, 220);
 
   return (
-    <article className="md:col-span-2 xl:col-span-2 bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-      <div className="p-stack-lg flex flex-col h-full">
+    <article className="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group">
+      <div className="p-stack-lg flex flex-col">
         <div className="flex justify-between items-start mb-stack-md gap-stack-md">
           <div className="flex gap-stack-md items-center min-w-0">
             <div className="w-14 h-14 rounded-lg bg-surface-container flex items-center justify-center border border-border-subtle shrink-0 relative overflow-hidden">
@@ -66,7 +66,7 @@ export default function FeaturedMatchCard({ match }) {
         </div>
 
         {description && (
-          <p className="text-slate-gray text-body-md grow mb-stack-lg">
+          <p className="text-slate-gray text-body-md mb-stack-lg">
             {description}
             {job.job_description?.length > 220 ? '…' : ''}
           </p>

@@ -1,8 +1,13 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAuth } from '@/lib/AuthContext';
 import SearchBar from './SearchBar';
 
 export default function Hero() {
+  const { user } = useAuth();
+
   return (
     <section className="relative min-h-[600px] flex items-center pt-8 hero-mesh overflow-hidden">
       <div className="max-w-container-max mx-auto px-margin-mobile w-full grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-center relative z-10">
@@ -26,28 +31,57 @@ export default function Hero() {
           <SearchBar />
 
           <div className="flex flex-wrap gap-stack-md pt-4">
-            <Link
-              href="/resume/upload"
-              className="group flex items-center gap-3 bg-electric-blue text-white px-8 py-4 rounded-xl font-button shadow-lg hover:shadow-electric-blue/20 transition-all"
-            >
-              <span
-                className="material-symbols-outlined"
-                style={{ fontVariationSettings: "'FILL' 1" }}
-              >
-                upload_file
-              </span>
-              Upload Resume
-              <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">
-                arrow_forward
-              </span>
-            </Link>
-            <Link
-              href="/resume/builder"
-              className="flex items-center gap-3 bg-white border-2 border-electric-blue text-electric-blue px-8 py-4 rounded-xl font-button hover:bg-surface-container-low transition-all"
-            >
-              <span className="material-symbols-outlined">edit_document</span>
-              Build Your Resume
-            </Link>
+            {user ? (
+              <>
+                <Link
+                  href="/matches"
+                  className="group flex items-center gap-3 bg-electric-blue text-white px-8 py-4 rounded-xl font-button shadow-lg hover:shadow-electric-blue/20 transition-all"
+                >
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ fontVariationSettings: "'FILL' 1" }}
+                  >
+                    rocket_launch
+                  </span>
+                  View My Matches
+                  <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">
+                    arrow_forward
+                  </span>
+                </Link>
+                <Link
+                  href="/resume/builder?mode=edit"
+                  className="flex items-center gap-3 bg-white border-2 border-electric-blue text-electric-blue px-8 py-4 rounded-xl font-button hover:bg-surface-container-low transition-all"
+                >
+                  <span className="material-symbols-outlined">edit_document</span>
+                  Update My Resume
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/resume/upload"
+                  className="group flex items-center gap-3 bg-electric-blue text-white px-8 py-4 rounded-xl font-button shadow-lg hover:shadow-electric-blue/20 transition-all"
+                >
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ fontVariationSettings: "'FILL' 1" }}
+                  >
+                    upload_file
+                  </span>
+                  Upload Resume
+                  <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">
+                    arrow_forward
+                  </span>
+                </Link>
+                <Link
+                  href="/resume/builder"
+                  className="flex items-center gap-3 bg-white border-2 border-electric-blue text-electric-blue px-8 py-4 rounded-xl font-button hover:bg-surface-container-low transition-all"
+                >
+                  <span className="material-symbols-outlined">edit_document</span>
+                  Build Your Resume
+                </Link>
+              </>
+            )}
           </div>
         </div>
 

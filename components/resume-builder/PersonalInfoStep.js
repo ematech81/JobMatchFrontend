@@ -2,29 +2,30 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { useResumeBuilder } from '@/lib/ResumeBuilderContext';
-
-const COUNTRIES = [
-  { value: 'ng', label: 'Nigeria' },
-  { value: 'us', label: 'United States' },
-  { value: 'uk', label: 'United Kingdom' },
-  { value: 'ca', label: 'Canada' },
-  { value: 'de', label: 'Germany' },
-  { value: 'rem', label: 'Remote Only' },
-];
+import { useResumeBuilder, COUNTRIES } from '@/lib/ResumeBuilderContext';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function PersonalInfoStep() {
   const { data, updateData, nextStep } = useResumeBuilder();
+  const { user } = useAuth();
 
-  const [fullName, setFullName] = useState(data.fullName);
+  // The builder's own state (data.fullName) wins if the user already typed
+  // something here and stepped back — only fall back to the signed-in
+  // account's name when this step hasn't been touched yet.
+  const [fullName, setFullName] = useState(data.fullName || user?.fullName || '');
   const [titlesInput, setTitlesInput] = useState(data.desiredTitles.join(', '));
   const [country, setCountry] = useState(data.preferredCountry);
   const [city, setCity] = useState(data.city);
   const [error, setError] = useState(null);
 
   const handleNext = () => {
-    if (!fullName.trim() || !titlesInput.trim() || !country) {
-      setError('Please fill in your name, at least one job title, and preferred country.');
+    const missing = [];
+    if (!fullName.trim()) missing.push('your name');
+    if (!titlesInput.trim()) missing.push('at least one job title');
+    if (!country) missing.push('preferred country');
+
+    if (missing.length > 0) {
+      setError(`Please fill in ${missing.join(', ')}.`);
       return;
     }
 
@@ -126,7 +127,7 @@ export default function PersonalInfoStep() {
                   Select country
                 </option>
                 {COUNTRIES.map((c) => (
-                  <option key={c.value} value={c.label}>
+                  <option key={c.value} value={c.value}>
                     {c.label}
                   </option>
                 ))}

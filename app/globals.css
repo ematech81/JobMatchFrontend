@@ -279,3 +279,31 @@
   100% { transform: translateX(100%); }
 }
 
+/* Resume upload, Step 3: mammoth's DOCX-to-HTML output is unstyled semantic
+   markup (p/h1-6/ul/li/strong/table, no classes) — scoped basic spacing so
+   it reads like a document instead of a wall of unbroken text. */
+.docx-preview {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #191c1e;
+}
+.docx-preview p { margin-bottom: 0.75em; }
+.docx-preview h1, .docx-preview h2, .docx-preview h3 {
+  font-weight: 700;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+.docx-preview ul, .docx-preview ol {
+  margin-bottom: 0.75em;
+  padding-left: 1.5em;
+}
+.docx-preview li { margin-bottom: 0.25em; }
+.docx-preview table {
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+.docx-preview td, .docx-preview th {
+  border: 1px solid #E2E8F0;
+  padding: 4px 8px;
+}
+

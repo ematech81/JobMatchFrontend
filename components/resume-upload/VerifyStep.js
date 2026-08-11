@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/AuthContext';
 import { updateMyResume } from '@/lib/apiClient';
+import { countryCodeToName } from '@/lib/format';
 
 let nextRoleId = 0;
 const newRoleId = () => `role-${Date.now()}-${nextRoleId++}`;
@@ -34,13 +35,59 @@ function toRoleFormState(exp = {}) {
  * `accomplishments` already being dropped by ResumeBuilderContext.js. See
  * ParsedResume / User models before wiring persistence for those.
  */
-export default function VerifyStep({ resume }) {
+export default function VerifyStep({ resume, file }) {
   const { user } = useAuth();
   const router = useRouter();
 
   const [fullName, setFullName] = useState(resume.fullName || user?.fullName || '');
   const [phone, setPhone] = useState('');
-  const [location, setLocation] = useState(resume.preferredCountry || '');
+  const [location, setLocation] = useState(countryCodeToName(resume.preferredCountry) || '');
+
+  // PDF gets a real browser-native preview — a live in-memory reference to
+  // the file the user just picked, not anything fetched or stored.
+  const isPreviewablePdf = file?.type === 'application/pdf';
+  const previewUrl = useMemo(
+    () => (isPreviewablePdf ? URL.createObjectURL(file) : null),
+    [file, isPreviewablePdf]
+  );
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
+  // DOCX has no built-in browser renderer, but mammoth can convert it to
+  // plain HTML entirely client-side — still just reading the same in-memory
+  // File object, nothing sent anywhere. Legacy .doc (binary, pre-2007) isn't
+  // something mammoth reads at all, so that format still falls back to the
+  // "can't preview" message below.
+  const isDocx = file?.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+  const [docxHtml, setDocxHtml] = useState(null);
+  // Derived from isDocx (a prop check, not a browser API) so the "loading"
+  // state is known from the first render — no synchronous setState needed
+  // at the top of the effect below, only inside its async callbacks.
+  const [docxStatus, setDocxStatus] = useState(() => (isDocx ? 'loading' : 'idle')); // idle | loading | done | error
+  useEffect(() => {
+    if (!isDocx) return;
+
+    let cancelled = false;
+
+    file
+      .arrayBuffer()
+      .then((buffer) => import('mammoth').then((mammoth) => mammoth.convertToHtml({ arrayBuffer: buffer })))
+      .then(({ value }) => {
+        if (cancelled) return;
+        setDocxHtml(value);
+        setDocxStatus('done');
+      })
+      .catch(() => {
+        if (!cancelled) setDocxStatus('error');
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [file, isDocx]);
   const [experience, setExperience] = useState(() =>
     (resume.experience?.length ? resume.experience : [{}]).map(toRoleFormState)
   );
@@ -172,17 +219,44 @@ export default function VerifyStep({ resume }) {
               </span>
             </div>
 
-            {/* The original file isn't persisted after parsing — there's
-                nothing to render a real preview from, so this stays an
-                honest placeholder rather than a fake document image. */}
-            <div className="flex-grow bg-surface-container-low rounded-lg border border-border-subtle flex flex-col items-center justify-center gap-3 text-center px-8">
-              <span className="material-symbols-outlined text-[48px] text-outline">description</span>
-              <p className="font-label-md text-label-md text-slate-gray">Preview unavailable</p>
-              <p className="font-body-sm text-body-sm text-slate-gray max-w-xs">
-                The original file isn&apos;t stored after parsing, so it can&apos;t be previewed here —
-                double check the extracted details on the right instead.
-              </p>
-            </div>
+            {previewUrl ? (
+              // Renders straight from the in-memory object URL above — the
+              // file itself never leaves this tab for this preview.
+              <iframe
+                src={previewUrl}
+                title="Original resume preview"
+                className="flex-grow rounded-lg border border-border-subtle bg-surface-container-low"
+              />
+            ) : docxStatus === 'done' ? (
+              // mammoth's output, converted entirely client-side from the
+              // same in-memory File — never uploaded anywhere for this.
+              // Rendered as-is (not sanitized): this is the user's own file,
+              // shown only to themselves in their own tab, not shared with
+              // other users, so the usual stored-HTML XSS risk doesn't apply.
+              <div
+                className="docx-preview flex-grow rounded-lg border border-border-subtle bg-surface-container-low overflow-y-auto p-6"
+                dangerouslySetInnerHTML={{ __html: docxHtml }}
+              />
+            ) : docxStatus === 'loading' ? (
+              <div className="flex-grow bg-surface-container-low rounded-lg border border-border-subtle flex flex-col items-center justify-center gap-3">
+                <span className="material-symbols-outlined animate-spin text-electric-blue text-3xl">
+                  progress_activity
+                </span>
+                <p className="font-body-sm text-body-sm text-slate-gray">Rendering preview…</p>
+              </div>
+            ) : (
+              <div className="flex-grow bg-surface-container-low rounded-lg border border-border-subtle flex flex-col items-center justify-center gap-3 text-center px-8">
+                <span className="material-symbols-outlined text-[48px] text-outline">description</span>
+                <p className="font-label-md text-label-md text-slate-gray">Preview unavailable</p>
+                <p className="font-body-sm text-body-sm text-slate-gray max-w-xs">
+                  {docxStatus === 'error'
+                    ? "This file couldn't be rendered for preview — double check the extracted details on the right instead."
+                    : file
+                      ? "Legacy .doc files can't be previewed in-browser — double check the extracted details on the right instead."
+                      : "The original file isn't stored after parsing, so it can't be previewed here — double check the extracted details on the right instead."}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Right: Editable Fields */}

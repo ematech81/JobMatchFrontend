@@ -6,11 +6,11 @@ export default function GuidedPathCard() {
     <div className="group relative bg-deep-navy text-white rounded-xl p-stack-lg transition-all duration-300 hover:shadow-xl flex flex-col">
       <div className="mb-6">
         <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center text-white mb-4">
-          <span className="material-symbols-outlined text-3xl">psychology</span>
+          <span className="material-symbols-outlined text-3xl">edit_document</span>
         </div>
-        <h2 className="font-headline-md text-headline-md mb-2">Guided Experience</h2>
+        <h2 className="font-headline-md text-headline-md mb-2">Build Manually</h2>
         <p className="text-white/70 font-body-md">
-          Perfect for fresh starts or career changers. Our AI agent will interview you about your strengths.
+          Prefer a blank slate? Fill in your experience and skills yourself, one step at a time.
         </p>
       </div>
 
@@ -20,7 +20,7 @@ export default function GuidedPathCard() {
           href="/resume/builder"
           className="w-full py-4 bg-white text-deep-navy font-button text-button rounded-lg hover:bg-surface-bright transition-colors flex items-center justify-center gap-2"
         >
-          Start Guided Q&amp;A
+          Start Building
           <span className="material-symbols-outlined">arrow_forward</span>
         </Link>
       </div>
@@ -30,13 +30,13 @@ export default function GuidedPathCard() {
           <span className="material-symbols-outlined text-match-success mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>
             check_circle
           </span>
-          <p className="text-body-sm text-white/70">Uncover &quot;hidden&quot; skills through behavioral prompts.</p>
+          <p className="text-body-sm text-white/70">Full control over every detail on your resume.</p>
         </div>
         <div className="flex items-start gap-3">
           <span className="material-symbols-outlined text-match-success mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>
             check_circle
           </span>
-          <p className="text-body-sm text-white/70">Best for maximizing your JobMatch compatibility score.</p>
+          <p className="text-body-sm text-white/70">No file needed — start from a blank profile.</p>
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@ import { formatExperience } from '@/lib/format';
 /**
  * Sidebar summary of the resume currently driving matching.
  * Renders whichever path produced it — an uploaded file shows its filename,
- * a guided-builder resume says so instead of inventing one.
+ * a manually-built resume says so instead of inventing one.
  */
 export default function ActiveResumeCard({ resume, totalExperienceMonths, loading }) {
   if (loading) {
@@ -40,7 +40,7 @@ export default function ActiveResumeCard({ resume, totalExperienceMonths, loadin
   const skills = resume.skills || [];
   const sourceLabel =
     resume.originalFilename ||
-    (resume.source === 'generated' ? 'Built with guided Q&A' : 'Parsed resume');
+    (resume.source === 'generated' ? 'Built manually' : 'Parsed resume');
 
   return (
     <section className="bg-surface-container-lowest border border-border-subtle rounded-xl p-stack-md shadow-sm">
@@ -95,10 +95,16 @@ export default function ActiveResumeCard({ resume, totalExperienceMonths, loadin
       </div>
 
       <Link
-        href="/resume/builder"
+        href="/resume/builder?mode=edit"
         className="block text-center w-full mt-stack-md py-stack-sm border border-electric-blue text-electric-blue font-button text-button rounded-lg hover:bg-surface-container-high transition-all"
       >
         Update Resume
+      </Link>
+      <Link
+        href="/resume/upload"
+        className="block text-center w-full mt-stack-sm py-stack-sm bg-electric-blue/10 text-electric-blue font-label-md text-label-md rounded-lg hover:bg-electric-blue/20 transition-colors"
+      >
+        Upload a different resume instead
       </Link>
     </section>
   );

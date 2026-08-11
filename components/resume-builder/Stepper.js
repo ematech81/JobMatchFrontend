@@ -5,6 +5,7 @@ const STEPS = [
   { id: 2, label: 'Experience', icon: 'work' },
   { id: 3, label: 'Education', icon: 'school' },
   { id: 4, label: 'Skills', icon: 'star' },
+  { id: 5, label: 'Review', icon: 'fact_check' },
 ];
 
 export default function Stepper({ currentStep }) {

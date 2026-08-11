@@ -7,7 +7,7 @@ import Footer from '@/components/landing/Footer';
 
 export const metadata = {
   title: 'Set Up Your Resume',
-  description: 'Upload your resume or build one with our guided Q&A to start getting matched with jobs.',
+  description: 'Upload your resume or build one manually to start getting matched with jobs.',
   robots: { index: false, follow: false },
 };
 

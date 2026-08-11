@@ -21,9 +21,15 @@ export default function ResumeUploadFlow() {
   const [step, setStep] = useState('upload'); // 'upload' | 'analyzing' | 'verify'
   const [resume, setResume] = useState(null);
   const [uploadError, setUploadError] = useState(null);
+  // Kept only in memory for this tab's session, purely so Step 3 can render
+  // an actual preview of what was selected — never re-sent anywhere, never
+  // persisted. The upload request in handleFileSelected already sends its
+  // own copy of the file to the API; this is a separate, local-only reference.
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileSelected = async (file) => {
     setUploadError(null);
+    setSelectedFile(file);
     setStep('analyzing');
 
     try {
@@ -37,7 +43,7 @@ export default function ResumeUploadFlow() {
   };
 
   if (step === 'verify' && resume) {
-    return <VerifyStep resume={resume} />;
+    return <VerifyStep resume={resume} file={selectedFile} />;
   }
 
   return (
