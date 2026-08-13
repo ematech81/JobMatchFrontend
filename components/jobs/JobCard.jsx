@@ -12,7 +12,13 @@ function timeAgo(dateString) {
   return `${days} days ago`;
 }
 
-export default function JobCard({ job }) {
+/**
+ * `onRemove`/`removing` are only ever passed from the Saved Jobs page (a
+ * client component), so the extra button branch below stays inert — and
+ * unrendered, since the prop is undefined — when this card is used from
+ * /jobs/search, which renders it as a plain server component.
+ */
+export default function JobCard({ job, onRemove, removing }) {
   const {
     job_id,
     job_title,
@@ -76,14 +82,30 @@ export default function JobCard({ job }) {
 
           <div className="flex sm:flex-col justify-between items-end gap-2">
             <span className="text-body-sm text-slate-gray">{timeAgo(fetched_at)}</span>
-            <Link
-              href={apply_link || '#'}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-electric-blue text-white px-5 py-2 rounded-lg font-button text-button hover:bg-secondary transition-all"
-            >
-              Apply Now
-            </Link>
+            <div className="flex items-center gap-2">
+              {onRemove && (
+                <button
+                  type="button"
+                  onClick={() => onRemove(job_id)}
+                  disabled={removing}
+                  aria-label="Remove from saved jobs"
+                  title="Remove from saved jobs"
+                  className="p-2 rounded-lg border border-border-subtle text-slate-gray hover:text-error hover:border-error/30 hover:bg-error-container/20 transition-all disabled:opacity-50"
+                >
+                  <span className="material-symbols-outlined text-[20px]">
+                    {removing ? 'progress_activity' : 'bookmark_remove'}
+                  </span>
+                </button>
+              )}
+              <Link
+                href={apply_link || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-electric-blue text-white px-5 py-2 rounded-lg font-button text-button hover:bg-secondary transition-all"
+              >
+                Apply Now
+              </Link>
+            </div>
           </div>
         </div>
       </div>

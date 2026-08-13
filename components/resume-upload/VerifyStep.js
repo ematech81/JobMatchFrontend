@@ -128,7 +128,11 @@ export default function VerifyStep({ resume, file }) {
           durationMonths,
         })),
       });
-      router.push('/matches');
+      // First-time onboarding completion — gated behind the scan/subscribe
+      // flow, not straight to the dashboard. VerifyStep only ever runs as
+      // part of that first-time flow (see ResumeUploadFlow), so this is
+      // unconditional here.
+      router.push('/subscribe/scan');
     } catch (err) {
       setError(err.message || 'Failed to save your changes. Please try again.');
       setSaving(false);

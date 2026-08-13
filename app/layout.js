@@ -23,8 +23,10 @@ export const metadata = {
     template: '%s | JobMatch',
   },
   description:
-    'Find remote jobs and career opportunities matched to your skills by AI. Upload your resume or build one in minutes and get matched with verified employers worldwide.',
+    'JobMatch is a job website that matches you to remote jobs and career opportunities by AI. Upload your resume or build one in minutes and get matched with verified employers worldwide.',
   keywords: [
+    'job website',
+    'job search website',
     'remote jobs',
     'job search',
     'AI job matching',

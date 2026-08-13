@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getToken, getSavedJobs, saveJob } from '@/lib/apiClient';
+import { getToken, getSavedJobs, saveJob, unsaveJob } from '@/lib/apiClient';
 
 export default function JobActions({ jobId, applyLink }) {
   const [saved, setSaved] = useState(false);
@@ -34,8 +34,13 @@ export default function JobActions({ jobId, applyLink }) {
 
     setSaving(true);
     try {
-      await saveJob(jobId);
-      setSaved(true);
+      if (saved) {
+        await unsaveJob(jobId);
+        setSaved(false);
+      } else {
+        await saveJob(jobId);
+        setSaved(true);
+      }
     } catch (err) {
       console.error('Save failed:', err.message);
     } finally {
@@ -54,11 +59,13 @@ export default function JobActions({ jobId, applyLink }) {
         Apply Now
       </a>
       <button
+        type="button"
         onClick={handleSave}
-        disabled={saving || saved}
+        disabled={saving}
+        title={saved ? 'Remove from saved jobs' : 'Save for later'}
         className="border-2 border-electric-blue text-electric-blue px-8 py-3 rounded-lg font-button text-button hover:bg-surface-container-low transition-all disabled:opacity-60"
       >
-        {saved ? 'Saved ✓' : saving ? 'Saving...' : 'Save for Later'}
+        {saving ? 'Saving...' : saved ? 'Saved ✓ (click to remove)' : 'Save for Later'}
       </button>
     </div>
   );

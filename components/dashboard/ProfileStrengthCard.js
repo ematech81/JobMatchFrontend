@@ -30,7 +30,7 @@ export default function ProfileStrengthCard({ strength }) {
       </div>
 
       <Link
-        href="/resume/builder"
+        href="/resume/builder?mode=edit"
         className="w-full py-stack-sm bg-white/20 backdrop-blur-md border border-white/30 text-on-secondary font-button text-button rounded-lg hover:bg-white/30 transition-all z-10 text-center"
       >
         {nextGap ? 'Optimize Now' : 'Review Resume'}

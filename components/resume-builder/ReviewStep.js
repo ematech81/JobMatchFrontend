@@ -35,7 +35,11 @@ export default function ReviewStep() {
     e.preventDefault();
     try {
       await submitResume();
-      router.push('/matches');
+      // Edit mode means an already-onboarded user is updating an existing
+      // resume (e.g. from the Profile page) — back to the dashboard as
+      // before. A first-time submission is the actual onboarding
+      // completion, gated behind the scan/subscribe flow instead.
+      router.push(isEditMode ? '/matches' : '/subscribe/scan');
     } catch {
       // submitError is already surfaced below; stay on the step so the user
       // can retry rather than losing everything they've entered.

@@ -1,14 +1,15 @@
 import Link from 'next/link';
 
 /**
- * Sidebar shortcuts. "Saved Jobs" and "Match Settings" point at routes that do
- * not exist yet — they are listed in the design and left linked so the nav
- * intent is preserved, but they will 404 until those screens are built.
+ * Sidebar shortcuts. No "Match Settings" entry — everything that actually
+ * drives match scoring (desired titles, skills, preferred country) is already
+ * real, editable data on the Profile page. The scoring weights/threshold
+ * themselves are fixed server constants, not per-user settings, so a
+ * dedicated screen would have nothing genuine to show.
  */
 const LINKS = [
   { href: '/profile', icon: 'account_circle', label: 'My Profile' },
   { href: '/jobs/saved', icon: 'bookmark', label: 'Saved Jobs' },
-  { href: '/settings/matching', icon: 'settings', label: 'Match Settings' },
 ];
 
 export default function QuickLinksCard() {

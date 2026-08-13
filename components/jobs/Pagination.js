@@ -2,7 +2,8 @@ import Link from 'next/link';
 
 export default function Pagination({ currentPage, country, jobType = [], datePosted }) {
   const buildHref = (page) => {
-    const params = new URLSearchParams({ country, page });
+    const params = new URLSearchParams({ page });
+    if (country) params.set('country', country);
     jobType.forEach((type) => params.append('jobType', type));
     if (datePosted) params.set('datePosted', datePosted);
     return `/jobs/search?${params.toString()}`;

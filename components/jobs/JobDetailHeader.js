@@ -3,11 +3,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
+
+const NAV_ITEMS = [
+  { href: '/jobs/search', label: 'Find Jobs' },
+  { href: '/matches', label: 'My Matches' },
+  { href: '/profile', label: 'Profile' },
+];
 
 export default function JobDetailHeader() {
   const [query, setQuery] = useState('');
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && query.trim()) {
@@ -24,21 +31,19 @@ export default function JobDetailHeader() {
             JobMatch
           </Link>
           <nav className="hidden md:flex gap-stack-lg items-center h-full">
-            <Link
-              href="/jobs/search"
-              className="text-slate-gray font-medium hover:text-secondary transition-colors duration-200 py-5"
-            >
-              Find Jobs
-            </Link>
-            <Link href="/matches" className="text-secondary border-b-2 border-secondary pb-1 font-bold">
-              My Matches
-            </Link>
-            <Link
-              href="/profile"
-              className="text-slate-gray font-medium hover:text-secondary transition-colors duration-200 py-5"
-            >
-              Profile
-            </Link>
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={
+                  pathname === item.href
+                    ? 'text-secondary border-b-2 border-secondary pb-1 font-bold'
+                    : 'text-slate-gray font-medium hover:text-secondary transition-colors duration-200 py-5'
+                }
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
         </div>
 

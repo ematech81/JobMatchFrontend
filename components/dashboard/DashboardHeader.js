@@ -2,7 +2,17 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/AuthContext';
+
+const NAV_ITEMS = [
+  { href: '/jobs/search', label: 'Find Jobs' },
+  { href: '/matches', label: 'My Matches' },
+  { href: '/profile', label: 'Profile' },
+];
+
+const ACTIVE_CLASSES = 'text-electric-blue font-bold border-b-2 border-electric-blue pb-1';
+const INACTIVE_CLASSES = 'text-slate-gray hover:text-deep-navy pb-1 border-b-2 border-transparent';
 
 /**
  * Dashboard top bar. Differs from the marketing header by carrying the signed-in
@@ -10,6 +20,7 @@ import { useAuth } from '@/lib/AuthContext';
  */
 export default function DashboardHeader({ newMatchCount = 0 }) {
   const { user } = useAuth();
+  const pathname = usePathname();
 
   const initials = (user?.fullName || user?.email || '?')
     .split(/[\s@._-]+/)
@@ -30,24 +41,17 @@ export default function DashboardHeader({ newMatchCount = 0 }) {
             JobMatch
           </Link>
           <nav className="hidden md:flex gap-stack-md">
-            <Link
-              href="/jobs/search"
-              className="font-body-md text-body-md text-slate-gray hover:text-deep-navy transition-colors"
-            >
-              Find Jobs
-            </Link>
-            <Link
-              href="/matches"
-              className="font-body-md text-body-md text-electric-blue font-bold border-b-2 border-electric-blue pb-1 transition-all duration-200"
-            >
-              My Matches
-            </Link>
-            <Link
-              href="/profile"
-              className="font-body-md text-body-md text-slate-gray hover:text-deep-navy transition-colors"
-            >
-              Profile
-            </Link>
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`font-body-md text-body-md transition-all duration-200 ${
+                  pathname === item.href ? ACTIVE_CLASSES : INACTIVE_CLASSES
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
         </div>
 

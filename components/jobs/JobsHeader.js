@@ -3,12 +3,22 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
+
+const NAV_ITEMS = [
+  { href: '/jobs/search', label: 'Find Jobs' },
+  { href: '/matches', label: 'My Matches' },
+  { href: '/profile', label: 'Profile' },
+];
+
+const ACTIVE_CLASSES = 'text-electric-blue font-bold border-b-2 border-electric-blue pb-1';
+const INACTIVE_CLASSES = 'text-slate-gray hover:text-deep-navy pb-1 border-b-2 border-transparent';
 
 export default function JobsHeader({ initialCountry }) {
   const [scrolled, setScrolled] = useState(false);
   const [country, setCountry] = useState(initialCountry);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -54,24 +64,17 @@ export default function JobsHeader({ initialCountry }) {
         </div>
 
         <nav className="hidden md:flex items-center gap-8">
-          <Link
-            href="/jobs/search"
-            className="font-body-md text-body-md text-electric-blue font-bold border-b-2 border-electric-blue pb-1 transition-all"
-          >
-            Find Jobs
-          </Link>
-          <Link
-            href="/matches"
-            className="font-body-md text-body-md text-slate-gray hover:text-deep-navy transition-colors"
-          >
-            My Matches
-          </Link>
-          <Link
-            href="/profile"
-            className="font-body-md text-body-md text-slate-gray hover:text-deep-navy transition-colors"
-          >
-            Profile
-          </Link>
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`font-body-md text-body-md transition-all ${
+                pathname === item.href ? ACTIVE_CLASSES : INACTIVE_CLASSES
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
       </div>
     </header>

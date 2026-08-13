@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import RequireAuth from '@/components/auth/RequireAuth';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import ActiveResumeCard from '@/components/dashboard/ActiveResumeCard';
@@ -11,6 +12,7 @@ import LiveMatchFeed from '@/components/dashboard/LiveMatchFeed';
 import ProfileStrengthCard from '@/components/dashboard/ProfileStrengthCard';
 import Footer from '@/components/landing/Footer';
 import { getMyMatches, getMyResume, ApiError } from '@/lib/apiClient';
+import { redirectForAccessError } from '@/lib/accessGate';
 import { getSocket } from '@/lib/socket';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -29,6 +31,7 @@ function matchToFeedItem(match, { isNew = false } = {}) {
 }
 
 function DashboardContent() {
+  const router = useRouter();
   const [matches, setMatches] = useState(null);
   const [feed, setFeed] = useState(null);
   const [resumeData, setResumeData] = useState(null);
@@ -55,6 +58,11 @@ function DashboardContent() {
       try {
         await loadMatches();
       } catch (err) {
+        // A user who lands here without onboarding/subscribing shouldn't
+        // normally be possible anymore (RedirectIfAuthed + RequireAuth catch
+        // it earlier), but this is the real enforcement — direct navigation,
+        // a stale tab, whatever gets them here still gets bounced correctly.
+        if (redirectForAccessError(err, router)) return;
         setError(err instanceof ApiError ? err.message : 'Failed to load matches');
       }
     })();
@@ -65,7 +73,7 @@ function DashboardContent() {
       .then(setResumeData)
       .catch(() => setResumeData(null))
       .finally(() => setResumeLoading(false));
-  }, [loadMatches]);
+  }, [loadMatches, router]);
 
   // One socket subscription for the whole dashboard: it both prepends to the
   // activity feed and refreshes the grid, so the two panels cannot drift apart.
