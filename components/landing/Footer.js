@@ -25,7 +25,15 @@ export default function Footer() {
               <ul className="space-y-2">
                 <li><Link href="/jobs/search" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Find Jobs</Link></li>
                 <li><Link href="/resume/builder" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Resume Builder</Link></li>
-                <li><Link href="/companies" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Companies</Link></li>
+              </ul>
+            </div>
+            <div className="space-y-4">
+              <h4 className="font-bold text-sm uppercase tracking-widest text-on-secondary-container opacity-50">
+                Company
+              </h4>
+              <ul className="space-y-2">
+                <li><Link href="/about" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">About Us</Link></li>
+                <li><Link href="/contact" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Contact Us</Link></li>
               </ul>
             </div>
             <div className="space-y-4">
@@ -34,22 +42,9 @@ export default function Footer() {
               </h4>
               <ul className="space-y-2">
                 <li><Link href="/help" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Help Center</Link></li>
-                <li><Link href="/contact" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Contact Us</Link></li>
-                <li><Link href="/privacy" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Privacy</Link></li>
+                <li><Link href="/privacy" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="text-on-secondary-container opacity-80 hover:opacity-100 transition-opacity">Terms of Service</Link></li>
               </ul>
-            </div>
-            <div className="space-y-4">
-              <h4 className="font-bold text-sm uppercase tracking-widest text-on-secondary-container opacity-50">
-                Social
-              </h4>
-              <div className="flex gap-4">
-                <a href="#" className="text-on-secondary-container opacity-80 hover:text-white transition-all">
-                  <span className="material-symbols-outlined">link</span>
-                </a>
-                <a href="#" className="text-on-secondary-container opacity-80 hover:text-white transition-all">
-                  <span className="material-symbols-outlined">share</span>
-                </a>
-              </div>
             </div>
           </div>
         </div>

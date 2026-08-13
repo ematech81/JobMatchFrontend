@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import RequireAuth from '@/components/auth/RequireAuth';
+import EmailVerificationBanner from '@/components/auth/EmailVerificationBanner';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import ProfileStrengthCard from '@/components/dashboard/ProfileStrengthCard';
 import Footer from '@/components/landing/Footer';
@@ -11,6 +12,8 @@ import PersonalInfoCard from '@/components/profile/PersonalInfoCard';
 import JobPreferencesCard from '@/components/profile/JobPreferencesCard';
 import ResumeSummaryCard from '@/components/profile/ResumeSummaryCard';
 import SkillsCard from '@/components/profile/SkillsCard';
+import AccountSettingsCard from '@/components/profile/AccountSettingsCard';
+import PrivacySecurityCard from '@/components/profile/PrivacySecurityCard';
 import { useAuth } from '@/lib/AuthContext';
 import { getMyResume, ApiError } from '@/lib/apiClient';
 
@@ -54,6 +57,7 @@ function ProfileContent() {
       <DashboardHeader />
 
       <main className="max-w-container-max mx-auto px-4 md:px-margin-mobile py-stack-lg pt-24">
+        <EmailVerificationBanner />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg">
           <aside className="lg:col-span-3 space-y-stack-md">
             <ProfileSidebar />
@@ -76,6 +80,9 @@ function ProfileContent() {
                 </div>
 
                 <SkillsCard resume={resume} onResumeChange={handleResumeChange} />
+
+                <AccountSettingsCard />
+                <PrivacySecurityCard />
               </>
             )}
           </div>

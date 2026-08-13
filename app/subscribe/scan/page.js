@@ -117,7 +117,7 @@ function ScanContent() {
                 onClick={() => router.push('/subscribe/plans')}
                 className="bg-electric-blue text-white px-8 py-3 rounded-lg font-button text-button hover:shadow-lg transition-all"
               >
-                Unlock My Matches
+                Find Job
               </button>
             </>
           )}

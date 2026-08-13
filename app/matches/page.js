@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import RequireAuth from '@/components/auth/RequireAuth';
+import EmailVerificationBanner from '@/components/auth/EmailVerificationBanner';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import ActiveResumeCard from '@/components/dashboard/ActiveResumeCard';
 import QuickLinksCard from '@/components/dashboard/QuickLinksCard';
@@ -132,6 +133,7 @@ function DashboardContent() {
       <DashboardHeader newMatchCount={newMatchCount} />
 
       <main className="pt-24 pb-stack-lg px-4 md:px-margin-mobile max-w-container-max mx-auto">
+        <EmailVerificationBanner />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
           <aside className="lg:col-span-3 space-y-stack-md order-2 lg:order-1">
             <ActiveResumeCard

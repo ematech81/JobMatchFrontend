@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import RequireAuth from '@/components/auth/RequireAuth';
+import EmailVerificationBanner from '@/components/auth/EmailVerificationBanner';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import JobCard from '@/components/jobs/JobCard.jsx';
 import Footer from '@/components/landing/Footer';
@@ -47,6 +48,7 @@ function SavedJobsContent() {
       <DashboardHeader />
 
       <main className="max-w-container-max mx-auto px-4 md:px-margin-mobile py-stack-lg pt-24 min-h-screen">
+        <EmailVerificationBanner />
         <header className="mb-stack-lg">
           <h1 className="font-headline-lg text-headline-lg text-deep-navy">Saved Jobs</h1>
           <p className="text-slate-gray font-body-md mt-1">
