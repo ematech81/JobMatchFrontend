@@ -12,9 +12,11 @@ import { NextResponse } from 'next/server';
  * proxy should do (per Next's guidance, it is not a session-management layer).
  * Real authorization stays on the API, which verifies the JWT on every request.
  */
-// /verify-email is public too — the link in the email may be opened on a
-// device/browser that was never signed in (the token itself, not the
-// session, is what proves mailbox ownership; see authController.verifyEmail).
+// /verify-email, /forgot-password, and /reset-password are public too — all
+// three can legitimately be opened by someone who isn't signed in (that's
+// the whole point of the latter two, and the verification link may be
+// opened on a device that never signed in at all). The token itself, not
+// the session, is what proves it's really the account owner in each case.
 // The footer content pages (about/privacy/terms/help/contact) are public on
 // principle — a Privacy Policy or Terms of Service you can't read without an
 // account defeats the point, and they're linked from the signed-out landing
@@ -24,6 +26,8 @@ const PUBLIC_PATHS = [
   '/login',
   '/register',
   '/verify-email',
+  '/forgot-password',
+  '/reset-password',
   '/about',
   '/privacy',
   '/terms',

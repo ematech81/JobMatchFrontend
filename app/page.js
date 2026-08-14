@@ -1,6 +1,10 @@
 import Header from '@/components/landing/Header';
 import Hero from '@/components/landing/Hero';
+import HowItWorks from '@/components/landing/HowItWorks';
+import LiveStats from '@/components/landing/LiveStats';
 import FeaturesBento from '@/components/landing/FeaturesBento';
+import PricingPreview from '@/components/landing/PricingPreview';
+import FaqPreview from '@/components/landing/FaqPreview';
 import CTASection from '@/components/landing/CTASection';
 import Footer from '@/components/landing/Footer';
 
@@ -44,7 +48,11 @@ export default function HomePage() {
       <Header />
       <main>
         <Hero />
+        <HowItWorks />
+        <LiveStats />
         <FeaturesBento />
+        <PricingPreview />
+        <FaqPreview />
         <CTASection />
       </main>
       <Footer />

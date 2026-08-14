@@ -44,6 +44,16 @@ function PlansContent() {
     setCheckoutResult(null);
     try {
       const { checkout } = await startCheckout(planId);
+      if (checkout.configured && checkout.checkoutUrl) {
+        // Real KoraPay checkout — leave the app entirely for their hosted
+        // payment page. It redirects back to this same URL (with
+        // ?reference=) once the customer finishes, per KoraPay's flow. This
+        // is a deliberate full navigation, not app state — an SPA route
+        // change can't leave the app for an external host.
+        // eslint-disable-next-line react-hooks/immutability
+        window.location.href = checkout.checkoutUrl;
+        return;
+      }
       setCheckoutResult({ planId, ...checkout });
     } catch (err) {
       setError(err.message || 'Failed to start checkout. Please try again.');
@@ -74,7 +84,9 @@ function PlansContent() {
           <div className="max-w-xl mx-auto mb-stack-lg bg-primary-fixed border border-electric-blue/30 rounded-lg p-stack-md text-center">
             <p className="text-deep-navy font-body-md">
               {checkoutResult.configured
-                ? 'Redirecting you to payment…'
+                ? // configured but no checkoutUrl means the real KoraPay call
+                  // itself failed (see korapayService) — nothing was charged.
+                  `Couldn't start checkout for ${selectedPlan?.label || 'that plan'} right now. Please try again in a moment.`
                 : `Got it — you selected ${selectedPlan?.label || 'that plan'}. Payment checkout isn't connected yet, so we haven't charged you anything — this is being wired up next.`}
             </p>
           </div>
