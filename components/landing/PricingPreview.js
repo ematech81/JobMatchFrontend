@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getPlans } from '@/lib/apiClient';
+import { formatPlanPrice } from '@/lib/format';
 
 // Fetches the real, live plan config (same source subscribe/plans reads
 // from) rather than hardcoding numbers here that could drift out of sync
@@ -38,7 +39,9 @@ export default function PricingPreview() {
             >
               <h3 className="font-headline-md text-headline-md text-deep-navy mb-1">{plan.label}</h3>
               <div className="flex items-baseline gap-1 mb-4">
-                <span className="font-display-lg text-4xl font-bold text-deep-navy">${plan.amount}</span>
+                <span className="font-display-lg text-4xl font-bold text-deep-navy">
+                  {formatPlanPrice(plan.amount, plan.currency)}
+                </span>
                 <span className="text-slate-gray text-body-sm">
                   {plan.interval === 'trial' ? `for ${plan.trialDays} days` : `/ ${plan.interval}`}
                 </span>

@@ -1,3 +1,5 @@
+import { formatPlanPrice } from '@/lib/format';
+
 const TAGLINES = {
   trial: 'Try it before you commit.',
   monthly: 'Best value for an ongoing search.',
@@ -25,7 +27,9 @@ export default function PlanCard({ plan, highlighted, selecting, onSelect }) {
         <p className="font-body-md text-body-md text-slate-gray mb-stack-md">{TAGLINES[plan.id] || plan.description}</p>
 
         <div className="flex items-baseline gap-1 mb-stack-lg">
-          <span className="font-display-lg text-display-lg text-deep-navy">${plan.amount}</span>
+          <span className="font-display-lg text-display-lg text-deep-navy">
+            {formatPlanPrice(plan.amount, plan.currency)}
+          </span>
           <span className="font-body-md text-body-md text-slate-gray">
             {plan.interval === 'trial' ? ` / ${plan.trialDays} days` : '/month'}
           </span>
