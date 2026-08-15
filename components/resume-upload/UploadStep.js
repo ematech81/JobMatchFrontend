@@ -144,27 +144,6 @@ export default function UploadStep({ onFileSelected, uploadError, onDismissUploa
           )}
         </div>
 
-        {/* Divider */}
-        <div className="flex items-center gap-4 my-8">
-          <div className="h-px bg-border-subtle flex-1" />
-          <span className="font-label-md text-label-md text-slate-gray uppercase">or</span>
-          <div className="h-px bg-border-subtle flex-1" />
-        </div>
-
-        {/* Alternative Action — not wired to a real LinkedIn OAuth flow yet;
-            the app has no LinkedIn integration anywhere else either (see
-            SocialLoginButtons), so this stays a visual placeholder for now. */}
-        <button
-          type="button"
-          disabled
-          title="Coming soon"
-          className="w-full border border-electric-blue text-electric-blue font-button text-button py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-3 opacity-60 cursor-not-allowed"
-        >
-          <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
-            work
-          </span>
-          Import from LinkedIn
-        </button>
       </div>
 
       {/* Contextual Help / Trust Indicator */}

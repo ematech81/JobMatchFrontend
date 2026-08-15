@@ -1,7 +1,8 @@
+import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import RegisterHero from '@/components/auth/RegisterHero';
-import SocialSignupButtons from '@/components/auth/SocialSignupButtons';
+import SocialLoginButtons from '@/components/auth/SocialLoginButtons';
 import RegisterForm from '@/components/auth/RegisterForm';
 import CorporateFooter from '@/components/auth/CorporateFooter';
 import RedirectIfAuthed from '@/components/auth/RedirectIfAuthed';
@@ -39,7 +40,10 @@ export default function RegisterPage() {
                   </p>
                 </div>
 
-                <SocialSignupButtons />
+                {/* SocialLoginButtons reads ?redirect=, so it must not block prerender. */}
+                <Suspense fallback={<div className="h-12" />}>
+                  <SocialLoginButtons />
+                </Suspense>
 
                 <div className="relative mb-8">
                   <div className="absolute inset-0 flex items-center">
