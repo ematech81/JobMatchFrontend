@@ -4,6 +4,7 @@ import { Suspense, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/AuthContext';
 import { getMyResume, getMySubscription, ApiError } from '@/lib/apiClient';
+import { SUBSCRIPTION_GATE_ENABLED } from '@/lib/featureFlags';
 
 /**
  * Split out purely so `useSearchParams()` has its own Suspense boundary,
@@ -34,7 +35,7 @@ function RedirectLogic() {
       .then(([resumeData, subData]) => {
         if (!resumeData) {
           router.replace('/onboarding');
-        } else if (subData?.subscription?.status !== 'active') {
+        } else if (SUBSCRIPTION_GATE_ENABLED && subData?.subscription?.status !== 'active') {
           router.replace('/subscribe/plans');
         } else {
           router.replace(redirectParam?.startsWith('/') ? redirectParam : '/matches');

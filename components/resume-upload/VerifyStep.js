@@ -265,6 +265,11 @@ export default function VerifyStep({ resume, file }) {
 
           {/* Right: Editable Fields */}
           <div className="flex flex-col gap-stack-lg h-[800px] overflow-y-auto pr-2 custom-scrollbar pb-stack-lg">
+            <p className="flex items-center gap-2 text-body-sm text-slate-gray bg-surface-container-low border border-border-subtle rounded-lg px-4 py-3">
+              <span className="material-symbols-outlined text-electric-blue text-lg">edit_note</span>
+              Every field below is editable — make any corrections before clicking Confirm &amp; See Matches.
+            </p>
+
             {/* Contact Info */}
             <div className="bg-surface-container-lowest border border-border-subtle rounded-xl p-stack-md shadow-sm">
               <div className="flex justify-between items-center mb-4">

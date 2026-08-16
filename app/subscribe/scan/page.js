@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import RequireAuth from '@/components/auth/RequireAuth';
 import SubscribeHeader from '@/components/subscribe/SubscribeHeader';
 import { getScanSummary, ApiError } from '@/lib/apiClient';
+import { SUBSCRIPTION_GATE_ENABLED } from '@/lib/featureFlags';
 
 const SCAN_MESSAGES = [
   'Reading your resume…',
@@ -89,7 +90,7 @@ function ScanContent() {
               <p className="text-error text-body-md mb-stack-lg">{error}</p>
               <button
                 type="button"
-                onClick={() => router.push('/subscribe/plans')}
+                onClick={() => router.push(SUBSCRIPTION_GATE_ENABLED ? '/subscribe/plans' : '/matches')}
                 className="bg-electric-blue text-white px-8 py-3 rounded-lg font-button text-button hover:shadow-lg transition-all"
               >
                 Continue
@@ -114,7 +115,7 @@ function ScanContent() {
               </p>
               <button
                 type="button"
-                onClick={() => router.push('/subscribe/plans')}
+                onClick={() => router.push(SUBSCRIPTION_GATE_ENABLED ? '/subscribe/plans' : '/matches')}
                 className="bg-electric-blue text-white px-8 py-3 rounded-lg font-button text-button hover:shadow-lg transition-all"
               >
                 Find Job
