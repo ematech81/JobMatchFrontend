@@ -57,14 +57,16 @@ export default function DashboardHeader({ newMatchCount = 0 }) {
 
         <div className="flex items-center gap-stack-md">
           {/* Counts matches surfaced in the last 24h — real data, not a placeholder badge. */}
-          <div className="relative">
-            <span className="material-symbols-outlined text-slate-gray">notifications</span>
+          <Link href="/matches" className="relative" aria-label="View new matches">
+            <span className="material-symbols-outlined text-slate-gray hover:text-deep-navy transition-colors">
+              notifications
+            </span>
             {newMatchCount > 0 && (
               <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 bg-match-success text-white text-[10px] font-bold rounded-full flex items-center justify-center">
                 {newMatchCount > 9 ? '9+' : newMatchCount}
               </span>
             )}
-          </div>
+          </Link>
           <div className="h-8 w-8 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold text-body-sm">
             {initials}
           </div>
