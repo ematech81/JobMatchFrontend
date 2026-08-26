@@ -99,8 +99,8 @@ export default function TermsPage() {
 
       <LegalSection title="9. Governing Law">
         <p>
-          [Governing jurisdiction to be specified.] This section will be finalized to reflect the
-          jurisdiction JobMatch operates under.
+          These terms are governed by the laws of the Federal Republic of Nigeria, without regard to
+          conflict-of-law principles.
         </p>
       </LegalSection>
 
