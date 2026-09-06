@@ -25,7 +25,6 @@ export default function JobCard({ job, onRemove, removing }) {
     employer_name,
     job_city,
     country,
-    apply_link,
     job_employment_type,
     fetched_at,
     employer_logo,
@@ -98,12 +97,10 @@ export default function JobCard({ job, onRemove, removing }) {
                 </button>
               )}
               <Link
-                href={apply_link || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`/jobs/${job_id}`}
                 className="bg-electric-blue text-white px-5 py-2 rounded-lg font-button text-button hover:bg-secondary transition-all"
               >
-                Apply Now
+                View Job Details
               </Link>
             </div>
           </div>

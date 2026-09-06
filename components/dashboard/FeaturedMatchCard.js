@@ -86,20 +86,11 @@ export default function FeaturedMatchCard({ match }) {
         )}
 
         <div className="flex gap-stack-md mt-auto">
-          <a
-            href={job.apply_link || '#'}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 py-stack-sm bg-electric-blue text-on-secondary font-button text-button rounded-lg hover:bg-secondary transition-all text-center"
-          >
-            Apply Now
-          </a>
           <Link
             href={`/jobs/${job.job_id}`}
-            className="w-12 h-10 border border-border-subtle flex items-center justify-center rounded-lg hover:bg-surface-container-high transition-colors"
-            aria-label="View job details"
+            className="flex-1 py-stack-sm bg-electric-blue text-on-secondary font-button text-button rounded-lg hover:bg-secondary transition-all text-center"
           >
-            <span className="material-symbols-outlined text-slate-gray">open_in_new</span>
+            View Job Details
           </Link>
         </div>
       </div>

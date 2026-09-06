@@ -6,12 +6,13 @@ import Link from 'next/link';
 import JobDetailHeader from './JobDetailHeader';
 import Breadcrumbs from './Breadcrumbs';
 import JobHeaderCard from './JobHeaderCard';
+import ApplicationGenerator from './ApplicationGenerator';
 import JobDescription from './JobDescription';
 import MatchAnalysis from './MatchAnalysis';
 import CompanyInfo from './CompanyInfo';
 import SimilarJobs from './SimilarJobs';
 import SlimFooter from '@/components/layout/SlimFooter';
-import { getJobDetail, getSimilarJobsForJob, ApiError } from '@/lib/apiClient';
+import { getJobDetail, getSimilarJobsForJob, getMyResume, ApiError } from '@/lib/apiClient';
 import { redirectForAccessError } from '@/lib/accessGate';
 
 /**
@@ -28,6 +29,7 @@ export default function JobDetailContent() {
   const router = useRouter();
   const [job, setJob] = useState(null);
   const [similarJobs, setSimilarJobs] = useState([]);
+  const [resume, setResume] = useState(null);
   const [error, setError] = useState(null);
   const [notFound, setNotFound] = useState(false);
 
@@ -69,6 +71,21 @@ export default function JobDetailContent() {
       cancelled = true;
     };
   }, [jobId, router]);
+
+  // Independent of jobId — the resume doesn't change per job, so this
+  // shouldn't re-fetch every time the user clicks into a different Similar
+  // Roles listing. ApplicationGenerator just doesn't render until this
+  // resolves; RequireAuth/requireResume already guarantee one exists for
+  // anyone who can reach this page at all, so a failure here is a real
+  // network hiccup, not an expected empty state — Apply Now still works
+  // regardless either way.
+  useEffect(() => {
+    getMyResume()
+      .then(({ resume }) => setResume(resume))
+      .catch(() => {});
+  }, []);
+
+  const handleResumeChange = (updated) => setResume(updated);
 
   if (notFound) {
     return (
@@ -127,6 +144,7 @@ export default function JobDetailContent() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg items-start">
           <div className="lg:col-span-8 space-y-stack-lg">
             <JobHeaderCard job={job} />
+            {resume && <ApplicationGenerator job={job} resume={resume} onResumeChange={handleResumeChange} />}
             <JobDescription job={job} />
           </div>
 
