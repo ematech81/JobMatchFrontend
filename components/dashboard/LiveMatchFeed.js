@@ -16,7 +16,7 @@ import { timeAgo } from '@/lib/format';
  */
 export default function LiveMatchFeed({ items = [], loading, connected }) {
   return (
-    <section className="xl:col-span-1 bg-deep-navy rounded-xl overflow-hidden text-on-secondary shadow-xl h-full flex flex-col min-h-[400px]">
+    <section className="xl:col-span-1 bg-deep-navy rounded-xl overflow-hidden text-on-secondary shadow-xl flex flex-col max-h-[520px]">
       <div className="p-stack-md border-b border-on-secondary/10 flex justify-between items-center">
         <h3 className="font-headline-md text-body-md font-bold">New Matches</h3>
         <span
