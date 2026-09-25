@@ -6,7 +6,7 @@ export const metadata = {
   description: 'The terms that govern your use of JobMatch.',
 };
 
-const UPDATED_AT = 'August 13, 2026';
+const UPDATED_AT = 'September 25, 2026';
 
 export default function TermsPage() {
   return (
@@ -51,8 +51,8 @@ export default function TermsPage() {
       <LegalSection title="4. Subscriptions & Payment">
         <p>Access to job matches and listings requires an active subscription. Current plans:</p>
         <ul>
-          <li><strong>7-Day Trial</strong> — ₦7,000, charged immediately as a one-time payment, for 7 days of full access.</li>
-          <li><strong>Monthly</strong> — ₦14,000, billed every 30 days for continued access.</li>
+          <li><strong>7-Day Trial</strong> — ₦5,000, charged immediately as a one-time payment, for 7 days of full access.</li>
+          <li><strong>Monthly</strong> — ₦10,000, billed every 30 days for continued access.</li>
         </ul>
         <p>
           Payments are processed by our third-party payment processor, KoraPay — we don&apos;t handle or

@@ -50,7 +50,7 @@ function downloadBlob(blob, filename) {
  * The two choices a job listing actually offers: apply with your resume
  * as-is (JobActions' Apply Now), or tailor it to this specific role first.
  * Skill-gap detection and adding skills to the real resume both work today.
- * The actual document generation is a real Claude call (see
+ * The actual document generation is a real OpenAI call (see
  * aiApplicationService on the backend) — not a stub — but it does depend on
  * that account having API credit; a clear error surfaces here rather than a
  * silent failure if it doesn't.
